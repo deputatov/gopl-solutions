@@ -1,11 +1,3 @@
-// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
-// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
-
-// Run with "web" command-line argument for web server.
-// See page 13.
-//!+main
-
-// Lissajous generates GIF animations of random Lissajous figures.
 package main
 
 import (
@@ -18,55 +10,43 @@ import (
 	"os"
 )
 
-//!-main
-// Packages not needed by version in book.
 import (
 	"log"
 	"net/http"
 	"time"
 )
 
-//!+main
-
-var palette = []color.Color{color.White, color.RGBA{7, 243, 7,1}}
+var palette = []color.Color{color.Black, color.RGBA{7, 243, 7, 1}}
 
 const (
-	whiteIndex = 0 // first color in palette
-	blackIndex = 1 // next color in palette
+	blackIndex = 1
 )
 
 func main() {
-	//!-main
-	// The sequence of images is deterministic unless we seed
-	// the pseudo-random number generator using the current time.
-	// Thanks to Randall McPherson for pointing out the omission.
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	if len(os.Args) > 1 && os.Args[1] == "web" {
-		//!+http
 		handler := func(w http.ResponseWriter, r *http.Request) {
 			lissajous(w)
 		}
 		http.HandleFunc("/", handler)
-		//!-http
 		log.Fatal(http.ListenAndServe("localhost:8000", nil))
 		return
 	}
-	//!+main
 	lissajous(os.Stdout)
 }
 
 func lissajous(out io.Writer) {
 	const (
-		cycles  = 5     // number of complete x oscillator revolutions
-		res     = 0.001 // angular resolution
-		size    = 100   // image canvas covers [-size..+size]
-		nframes = 64    // number of animation frames
-		delay   = 8     // delay between frames in 10ms units
+		cycles  = 5
+		res     = 0.001
+		size    = 100
+		nframes = 64
+		delay   = 8
 	)
-	freq := rand.Float64() * 3.0 // relative frequency of y oscillator
+	freq := rand.Float64() * 3.0
 	anim := gif.GIF{LoopCount: nframes}
-	phase := 0.0 // phase difference
+	phase := 0.0
 	for i := 0; i < nframes; i++ {
 		rect := image.Rect(0, 0, 2*size+1, 2*size+1)
 		img := image.NewPaletted(rect, palette)
@@ -80,7 +60,5 @@ func lissajous(out io.Writer) {
 		anim.Delay = append(anim.Delay, delay)
 		anim.Image = append(anim.Image, img)
 	}
-	gif.EncodeAll(out, &anim) // NOTE: ignoring encoding errors
+	gif.EncodeAll(out, &anim)
 }
-
-//!-main
