@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println(tempconv.CToK(20))
-	fmt.Println(tempconv.KToC(20))
+	fmt.Printf("%g\n", tempconv.CToK(20))
+	fmt.Printf("%g\n", tempconv.KToC(20))
 }
