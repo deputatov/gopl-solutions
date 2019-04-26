@@ -17,7 +17,6 @@ func main() {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 	for py := 0; py < height; py++ {
 		y := float64(py)/height*(ymax-ymin) + ymin
-		img.Set(5, 5, color.RGBA{54, 58, 48, 25})
 		for px := 0; px < width; px++ {
 			x := float64(px)/width*(xmax-xmin) + xmin
 			z := complex(x, y)
