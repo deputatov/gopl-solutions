@@ -14,7 +14,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// fmt.Printf("%d issues:\n", result.TotalCount)
 
 	timeNow := time.Now()
 	monthAgo := timeNow.AddDate(0, -1, 0)
@@ -37,28 +36,30 @@ func main() {
 		}
 	}
 
-	fmt.Printf("%d issues:\n", issueMonthAgo.TotalCount)
-
-	for i, item := range issueMonthAgo.Items {
-		fmt.Printf("%-3d %s #%-5d %9.9s %.55s\n",
-			i, item.CreatedAt, item.Number, item.User.Login, item.Title)
+	if issueMonthAgo.TotalCount > 0 {
+		fmt.Printf("%d issues less than a month old:\n", issueMonthAgo.TotalCount)
+		for i, item := range issueMonthAgo.Items {
+			fmt.Printf("%-3d %s #%-5d %9.9s %.55s\n",
+				i, item.CreatedAt, item.Number, item.User.Login, item.Title)
+		}
+		fmt.Println()
 	}
 
-	fmt.Println()
-
-	fmt.Printf("%d issue:\n", issueYearAgo.TotalCount)
-
-	for i, item := range issueYearAgo.Items {
-		fmt.Printf("%-3d %s #%-5d %9.9s %.55s\n",
-			i, item.CreatedAt, item.Number, item.User.Login, item.Title)
+	if issueYearAgo.TotalCount > 0 {
+		fmt.Printf("%d issues less than a year old:\n", issueYearAgo.TotalCount)
+		for i, item := range issueYearAgo.Items {
+			fmt.Printf("%-3d %s #%-5d %9.9s %.55s\n",
+				i, item.CreatedAt, item.Number, item.User.Login, item.Title)
+		}
+		fmt.Println()
 	}
 
-	fmt.Println()
+	if issueOverAYearAgo.TotalCount > 0 {
+		fmt.Printf("%d issues more than a year old:\n", issueOverAYearAgo.TotalCount)
 
-	fmt.Printf("%d issues:\n", issueOverAYearAgo.TotalCount)
-
-	for i, item := range issueOverAYearAgo.Items {
-		fmt.Printf("%-3d %s #%-5d %9.9s %.55s\n",
-			i, item.CreatedAt, item.Number, item.User.Login, item.Title)
+		for i, item := range issueOverAYearAgo.Items {
+			fmt.Printf("%-3d %s #%-5d %9.9s %.55s\n",
+				i, item.CreatedAt, item.Number, item.User.Login, item.Title)
+		}
 	}
 }
